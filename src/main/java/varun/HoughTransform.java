@@ -53,12 +53,12 @@ public class HoughTransform {
 	}
 
 	public static void main(String[] args) {
-		final Img<FloatType> inputimg = ImgLib2Util.openAs32Bit(new File("src/main/resources/test.jpg"));
+		final Img<FloatType> inputimg = ImgLib2Util.openAs32Bit(new File("src/main/resources/dt.png"));
 
 		final ImgFactory<FloatType> imgFactory = new CellImgFactory<FloatType>(5);
 		int maxtheta = 180;
-		int maxrho = (int) (Math
-				.sqrt((inputimg.dimension(0) * inputimg.dimension(0) + inputimg.dimension(1) * inputimg.dimension(1))));
+		int maxrho = (int) (2*Math.sqrt((inputimg.dimension(0) * inputimg.dimension(0) 
+				+ inputimg.dimension(1) * inputimg.dimension(1))));
 		FinalInterval interval = new FinalInterval(new long[] { maxrho, maxtheta });
 
 		final Img<FloatType> houghimage = imgFactory.create(interval, new FloatType());
