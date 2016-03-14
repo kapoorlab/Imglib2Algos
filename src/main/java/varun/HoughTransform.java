@@ -52,7 +52,7 @@ public class HoughTransform {
 			inputcursor.localize(position);
 
 			for (int angle = 0; angle < maxtheta; ++angle) {
-				if (inputcursor.get().compareTo(val) > 0)
+				if (inputcursor.get().compareTo(val) > 0){
 
 					rho[angle] = Math.cos(theta[angle]) * position[0] + Math.sin(theta[angle]) * position[1];
 
@@ -65,19 +65,20 @@ public class HoughTransform {
 				outbound.get().set(inputcursor.get());
 			}
 		}
-
+		}
 	}
 
 	public static void main(String[] args) {
 		final Img<FloatType> inputimg = ImgLib2Util.openAs32Bit(new File("src/main/resources/dt.png"));
 
-		final ImgFactory<FloatType> imgFactory = new CellImgFactory<FloatType>(2);
+		
 		int maxtheta = 180;
 		int maxrho = (int) ( Math
 				.sqrt((inputimg.dimension(0) * inputimg.dimension(0) + inputimg.dimension(1) * inputimg.dimension(1))));
+		
 		FinalInterval interval = new FinalInterval(new long[] { maxrho, maxtheta });
 
-		final Img<FloatType> houghimage = imgFactory.create(interval, new FloatType());
+		final Img<FloatType> houghimage = new ArrayImgFactory<FloatType>().create(interval, new FloatType());
 
 		NearestNeighborInterpolatorFactory<FloatType> factory1 = new NearestNeighborInterpolatorFactory<FloatType>();
 		RealRandomAccessible<FloatType> houghinterpolation = Views.interpolate(Views.extendMirrorSingle(houghimage),
