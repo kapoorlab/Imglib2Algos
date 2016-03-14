@@ -54,42 +54,35 @@ public class HoughTransform {
 			for (int angle = 0; angle < maxtheta; ++angle) {
 				if (inputcursor.get().compareTo(val) > 0)
 
-				rho[angle] = Math.cos(theta[angle]) * position[0] + Math.sin(theta[angle]) * position[1];
-
-				RealPoint houghpoint = new RealPoint(n);
+					rho[angle] = Math.cos(theta[angle]) * position[0] + Math.sin(theta[angle]) * position[1];
 
 				
-				point[0] = rho[angle];
-				point[1] = angle;
+				point[0] = angle;
+				point[1] = rho[angle];
+				
 
-				houghpoint.setPosition(point);
-
-			outbound.setPosition(houghpoint);	
+				outbound.setPosition(point);
 				outbound.get().set(inputcursor.get());
-//				System.out.println(houghpoint.getDoublePosition(0));
 			}
-			}
-
 		}
 
-	
+	}
 
 	public static void main(String[] args) {
 		final Img<FloatType> inputimg = ImgLib2Util.openAs32Bit(new File("src/main/resources/dt.png"));
 
 		final ImgFactory<FloatType> imgFactory = new CellImgFactory<FloatType>(2);
 		int maxtheta = 180;
-		int maxrho = (int) (2 * Math
+		int maxrho = (int) ( Math
 				.sqrt((inputimg.dimension(0) * inputimg.dimension(0) + inputimg.dimension(1) * inputimg.dimension(1))));
 		FinalInterval interval = new FinalInterval(new long[] { maxrho, maxtheta });
 
 		final Img<FloatType> houghimage = imgFactory.create(interval, new FloatType());
 
-		 NearestNeighborInterpolatorFactory< FloatType > factory1 =
-		            new NearestNeighborInterpolatorFactory< FloatType >();
-		 RealRandomAccessible<FloatType> houghinterpolation = Views.interpolate(
-		            Views.extendMirrorSingle( houghimage ), factory1 );
-		
+		NearestNeighborInterpolatorFactory<FloatType> factory1 = new NearestNeighborInterpolatorFactory<FloatType>();
+		RealRandomAccessible<FloatType> houghinterpolation = Views.interpolate(Views.extendMirrorSingle(houghimage),
+				factory1);
+
 		Houghspace(inputimg, houghinterpolation, 0, maxtheta);
 
 		ImageJFunctions.show(houghimage);
