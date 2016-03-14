@@ -62,7 +62,8 @@ public class HoughTransform {
 				
 
 				outbound.setPosition(point);
-				outbound.get().set(inputcursor.get());
+//				outbound.get().set(inputcursor.get());
+				outbound.get().setReal(position[0]);
 			}
 		}
 		}
